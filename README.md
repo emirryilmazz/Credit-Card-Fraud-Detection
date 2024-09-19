@@ -1,5 +1,9 @@
 # Credit-Card-Fraud-Detection
 
+# Kaggle Linki
+Maalesef github, dosya çok büyük dediği için görüntülemeye izin vermiyor. İndirip deneyebilirsiniz ya da kaggle linkine tıklayabilirsiniz 
+https://www.kaggle.com/code/emiryilmazey/aygaz-credit-card-fraud-detection
+
 # Projenin Amacı: 
 Bu projenin amacı, bir finansal veri seti üzerinde sahtecilik (fraud) tespit etmek ve bu tespiti hem denetimli (supervised) hem de denetimsiz (unsupervised) öğrenme yaklaşımlarıyla optimize etmektir. Denetimli öğrenme kapsamında voting yöntemleriyle model performansı artırılırken, sahtecilik tespiti için recall metriği önceliklendirilmiştir. Denetimsiz öğrenmede ise anomaly detection kullanılarak etiketlenmemiş veri içindeki olası sahtecilik vakaları tespit edilmiş ve uygun metriklerle değerlendirilmiştir. Projenin genel amacı, sahtecilik vakalarını yüksek doğrulukla tespit eden bir sistem geliştirmektir.
 

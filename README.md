@@ -31,7 +31,7 @@ Kullanılan dataset, ~1.3 milyon satırdan oluşmaktadır. Sütun isimleri ise s
 - **is_fraud**: Bu sütun, işlemin sahtecilik olup olmadığını gösterir (1: sahte, 0: sahte değil).
 - **merch_zipcode**: Bu sütun, işlemin yapıldığı satıcının bulunduğu posta kodunu gösterir.
 
-# Yöntem
+# Veri Önişleme
 Veri önişleme adımlarında aşağıdaki adımlar izlenmiştir:
 - **Gereksiz sütunları kaldırma (drop)**: Model için anlamlı veya etkili olmayan, analize katkı sağlamayan sütunları veri setinden çıkardım. Bu, hem veri temizliğini hem de işlem süresini optimize etmeye yardımcı oldu.
 
@@ -43,7 +43,7 @@ Veri önişleme adımlarında aşağıdaki adımlar izlenmiştir:
   
 - **Label encoding**: One-hot encoding + PCA işe yaramadığı için, kategorik verileri sayısal verilere dönüştürmek için label encoding yöntemini kullandım. Bu, kategorik değerleri sıralı bir şekilde kodlayarak veri setinde daha az yer kaplamalarını sağladı.
 
-# Model Seçimi ve Eğitim 
+# *Supervised* - Model Seçimi ve Eğitim 
 Eğitim kısmını şu şekilde açıklayabiliriz:
 
 - **Model seçiminde voting kullanımı**: Modelin performansını artırmak amacıyla oylama (voting) yöntemi kullanılmıştır. Bu yöntemde birden fazla model bir araya getirilerek daha güçlü bir tahmin elde edilmeye çalışılmıştır. Voting içerisinde **Decision Trees**, **Hist Gradient Boosting** ve **Naive Bayes** algoritmaları kullanılmıştır.
@@ -51,3 +51,16 @@ Eğitim kısmını şu şekilde açıklayabiliriz:
 - **Eğitilen modelin cross_val_score ile değerlendirilmesi**: Modelin genelleme yeteneğini test etmek ve aşırı öğrenmenin (overfitting) önüne geçmek amacıyla, eğitilen model **cross_val_score** fonksiyonu ile çapraz doğrulama (cross-validation) kullanılarak değerlendirilmiştir. Bu yöntemde, veri seti farklı k alt kümelere bölünür ve model her bir alt küme üzerinde eğitilip test edilir. Böylece, modelin performansı daha tutarlı bir şekilde ölçülür ve farklı veri kümeleri üzerinde nasıl çalıştığına dair bir fikir elde edilir.
 
 - **Recall metriğinin öncelikli olması ve confusion matrix ile değerlendirme**: Seçilen proje gereği **recall** metriği (duyarlılık) başarım ölçümünde önceliklendirilmiştir. Recall, modelin sahtecilik gibi nadir durumları ne kadar iyi yakaladığını gösterdiği için bu projede daha önemli kabul edilmiştir. Başarım ölçümü, bir karışıklık matrisi (confusion matrix) kullanılarak yapılmıştır. Bu matris, modelin doğru ve yanlış sınıflandırmalarını ayrıntılı olarak gösterir ve recall gibi metriklerin daha net anlaşılmasını sağlar. 
+
+# *Unsupervised* - Model Seçimi ve Eğitim 
+Unsupervised learning için yapılan işlemleri şu şekilde açıklayabiliriz:
+
+- **KNN algoritması seçimi**: Aykırı değerleri tespit etmek için **K-en Yakın Komşu (KNN)** algoritması tercih edilmiştir. Bu algoritma, her veri noktasını komşularına olan mesafelerine göre değerlendirir.
+
+- **n_neighbors parametre seçimi**: Algoritma parametresi olarak **n_neighbors** değeri 2 olarak belirlenmiştir, yani her veri noktası en yakın iki komşusuna göre değerlendirilmiştir.
+
+- **Mean distances hesaplanması**: Her bir veri noktası için komşularına olan ortalama mesafeler hesaplanmıştır. Bu mesafeler, noktanın diğer verilerle ne kadar ilişkili olduğunu gösterir ve uzak değerler anomali olma olasılığını artırır.
+
+- **Threshold değerine göre anomalilerin listelenmesi**: Belirlenen bir eşik değeri (threshold) kullanılarak, ortalama mesafesi bu eşik değerin üstünde kalan veri noktaları anomali olarak sınıflandırılmış ve listelenmiştir.
+
+- **Grafiksel görselleştirme**: Anomali olarak tespit edilen ve normal olan veri noktaları iki sınıfa ayrılarak bir grafik üzerinde görselleştirilmiştir. Bu, anomalilerin veri seti içindeki dağılımını daha net bir şekilde incelemeye olanak sağlamıştır.

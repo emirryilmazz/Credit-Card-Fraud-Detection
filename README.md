@@ -1,70 +1,55 @@
-# Credit-Card-Fraud-Detection
+# Credit Card Fraud Detection
 
-# Kaggle Linki
-Maalesef github, dosya çok büyük dediği için görüntülemeye izin vermiyor. İndirip deneyebilirsiniz ya da kaggle linkine tıklayabilirsiniz 
-https://www.kaggle.com/code/emiryilmazey/aygaz-credit-card-fraud-detection
+## Kaggle Link
+Unfortunately, GitHub does not allow viewing large files directly. You can download and test it, or click the Kaggle link:
+[https://www.kaggle.com/code/emiryilmazey/aygaz-credit-card-fraud-detection](https://www.kaggle.com/code/emiryilmazey/aygaz-credit-card-fraud-detection)
 
-# Projenin Amacı: 
-Bu projenin amacı, bir finansal veri seti üzerinde sahtecilik (fraud) tespit etmek ve bu tespiti hem denetimli (supervised) hem de denetimsiz (unsupervised) öğrenme yaklaşımlarıyla optimize etmektir. Denetimli öğrenme kapsamında voting yöntemleriyle model performansı artırılırken, sahtecilik tespiti için recall metriği önceliklendirilmiştir. Denetimsiz öğrenmede ise anomaly detection kullanılarak etiketlenmemiş veri içindeki olası sahtecilik vakaları tespit edilmiş ve uygun metriklerle değerlendirilmiştir. Projenin genel amacı, sahtecilik vakalarını yüksek doğrulukla tespit eden bir sistem geliştirmektir.
+## Project Objective
+The aim of this project is to detect fraud in a financial dataset and optimize this detection using supervised approaches. In supervised learning, model performance is enhanced using voting methods, prioritizing the recall metric for fraud detection. The overall goal of the project is to develop a system that accurately detects fraud cases.
 
-# Veri Seti
-Kullanılan dataset, ~1.3 milyon satırdan oluşmaktadır. Sütun isimleri ise sırasıyla şu şekilde: 
+## Dataset
+The dataset used consists of approximately 1.3 million rows. The column names are as follows:
 
-- **Unnamed: 0**: Bu sütun veri kümesindeki her bir satıra atanmış otomatik bir indeks numarasını göstermektedir.
-- **trans_date_trans_time**: Bu sütun, işlemin gerçekleştiği tarih ve zamanı belirtir.
-- **cc_num**: Bu sütun, kredi kartı numarasını (gizlenmiş veya kısaltılmış) temsil eder.
-- **merchant**: Bu sütun, işlemin gerçekleştirildiği satıcı veya iş yeri adını belirtir.
-- **category**: Bu sütun, işlemin yapıldığı satıcı veya iş yerinin kategorisini (örneğin market, restoran) gösterir.
-- **amt**: Bu sütun, yapılan işlemin tutarını (miktarını) gösterir.
-- **first**: Bu sütun, kart sahibinin adını temsil eder.
-- **last**: Bu sütun, kart sahibinin soyadını temsil eder.
-- **gender**: Bu sütun, kart sahibinin cinsiyetini belirtir.
-- **street**: Bu sütun, kart sahibinin yaşadığı sokak adresini temsil eder.
-- **city**: Bu sütun, kart sahibinin yaşadığı şehri belirtir.
-- **state**: Bu sütun, kart sahibinin yaşadığı eyalet veya bölgeyi belirtir.
-- **zip**: Bu sütun, kart sahibinin yaşadığı posta kodunu temsil eder.
-- **lat**: Bu sütun, kart sahibinin yaşadığı yerin enlem bilgisini gösterir.
-- **long**: Bu sütun, kart sahibinin yaşadığı yerin boylam bilgisini gösterir.
-- **city_pop**: Bu sütun, kart sahibinin yaşadığı şehrin nüfusunu belirtir.
-- **job**: Bu sütun, kart sahibinin mesleğini gösterir.
-- **dob**: Bu sütun, kart sahibinin doğum tarihini temsil eder.
-- **trans_num**: Bu sütun, işleme ait benzersiz işlem numarasını belirtir.
-- **unix_time**: Bu sütun, işlemin UNIX zaman damgasını (epoch time) içerir.
-- **merch_lat**: Bu sütun, işlemin yapıldığı satıcının konumunun enlem bilgisini gösterir.
-- **merch_long**: Bu sütun, işlemin yapıldığı satıcının konumunun boylam bilgisini gösterir.
-- **is_fraud**: Bu sütun, işlemin sahtecilik olup olmadığını gösterir (1: sahte, 0: sahte değil).
-- **merch_zipcode**: Bu sütun, işlemin yapıldığı satıcının bulunduğu posta kodunu gösterir.
+- **Unnamed: 0**: An automatic index number assigned to each row in the dataset.
+- **trans_date_trans_time**: The date and time when the transaction occurred.
+- **cc_num**: The credit card number (masked or shortened).
+- **merchant**: The name of the merchant or business where the transaction took place.
+- **category**: The category of the merchant (e.g., grocery, restaurant).
+- **amt**: The amount of the transaction.
+- **first**: The first name of the cardholder.
+- **last**: The last name of the cardholder.
+- **gender**: The gender of the cardholder.
+- **street**: The street address of the cardholder.
+- **city**: The city where the cardholder resides.
+- **state**: The state or region where the cardholder resides.
+- **zip**: The postal code where the cardholder resides.
+- **lat**: The latitude of the cardholder's location.
+- **long**: The longitude of the cardholder's location.
+- **city_pop**: The population of the city where the cardholder resides.
+- **job**: The profession of the cardholder.
+- **dob**: The birth date of the cardholder.
+- **trans_num**: The unique transaction number associated with the transaction.
+- **unix_time**: The UNIX timestamp (epoch time) of the transaction.
+- **merch_lat**: The latitude of the merchant's location.
+- **merch_long**: The longitude of the merchant's location.
+- **is_fraud**: Indicates whether the transaction is fraudulent (1: fraud, 0: not fraud).
+- **merch_zipcode**: The postal code of the merchant's location.
 
-# Veri Önişleme
-Veri önişleme adımlarında aşağıdaki adımlar izlenmiştir:
-- **Gereksiz sütunları kaldırma (drop)**: Model için anlamlı veya etkili olmayan, analize katkı sağlamayan sütunları veri setinden çıkardım. Bu, hem veri temizliğini hem de işlem süresini optimize etmeye yardımcı oldu.
+## Data Preprocessing
+The following steps were followed in data preprocessing:
+- **Dropping Unnecessary Features**: Removed columns that were not meaningful or effective for the model, aiding in both data cleaning and optimizing processing time.
+- **Handling Null Variables**: Checked for missing (null) values in the dataset and implemented necessary actions to avoid negatively impacting the model (e.g., filling missing values or removing relevant rows).
+- **Normalization**: Normalized numerical values to improve model performance by assessing different measurement units on a common scale.
+- **Label Encoding**: Due to the ineffectiveness of one-hot encoding and PCA, label encoding was used to convert categorical data into numerical format, allowing for a smaller data footprint.
 
-- **Null değerlerin kontrolü**: Veri setinde eksik (null) değerler olup olmadığını kontrol ettim ve bu değerlerin modellenmeyi olumsuz etkilememesi için gerekli işlemleri uyguladım (örneğin, eksik değerleri doldurma veya ilgili satırları silme).
+## Supervised Learning - Model Selection and Training
+The training section can be summarized as follows:
 
-- **Normalizasyon**: Modelin daha tutarlı sonuçlar verebilmesi için sayısal değerleri normalizasyon işleminden geçirdim. Bu, verilerdeki farklı ölçüm birimlerini ortak bir ölçekte değerlendirerek modelin performansını iyileştirdi.
+- **Voting for Model Selection**: The voting method was employed to enhance model performance. Multiple models were combined to achieve a stronger prediction. **Decision Trees**, **Hist Gradient Boosting**, and **Naive Bayes** algorithms were used in the voting ensemble.
+- **Model Evaluation with Cross-Validation**: The trained model was evaluated using the **cross_val_score** function for cross-validation, testing its generalization ability and preventing overfitting. The dataset was divided into different subsets, and the model was trained and tested on each subset.
+- **Prioritizing Recall Metric and Confusion Matrix Evaluation**: The **recall** metric (sensitivity) was prioritized for performance measurement, as it indicates how well the model captures rare cases like fraud. A confusion matrix was used for performance measurement, detailing the model's correct and incorrect classifications.
 
-- **One hot encoding + PCA**: Kategorik verileri sayısal verilere çevirmek için one-hot encoding yöntemini uyguladım. Daha sonra, veri boyutunu azaltmak ve işlem süresini optimize etmek amacıyla Ana Bileşen Analizi (PCA) uyguladım. Ancak bu yöntem istediğim sonuçları vermedi.
-  
-- **Label encoding**: One-hot encoding + PCA işe yaramadığı için, kategorik verileri sayısal verilere dönüştürmek için label encoding yöntemini kullandım. Bu, kategorik değerleri sıralı bir şekilde kodlayarak veri setinde daha az yer kaplamalarını sağladı.
 
-# *Supervised* - Model Seçimi ve Eğitim 
-Eğitim kısmını şu şekilde açıklayabiliriz:
+## Conclusion
+This project presents a comprehensive approach to detecting credit card fraud using both supervised and unsupervised learning techniques. Through data preprocessing, model selection, and evaluation, the objective of accurately identifying fraudulent transactions has been achieved.
 
-- **Model seçiminde voting kullanımı**: Modelin performansını artırmak amacıyla oylama (voting) yöntemi kullanılmıştır. Bu yöntemde birden fazla model bir araya getirilerek daha güçlü bir tahmin elde edilmeye çalışılmıştır. Voting içerisinde **Decision Trees**, **Hist Gradient Boosting** ve **Naive Bayes** algoritmaları kullanılmıştır.
-
-- **Eğitilen modelin cross_val_score ile değerlendirilmesi**: Modelin genelleme yeteneğini test etmek ve aşırı öğrenmenin (overfitting) önüne geçmek amacıyla, eğitilen model **cross_val_score** fonksiyonu ile çapraz doğrulama (cross-validation) kullanılarak değerlendirilmiştir. Bu yöntemde, veri seti farklı k alt kümelere bölünür ve model her bir alt küme üzerinde eğitilip test edilir. Böylece, modelin performansı daha tutarlı bir şekilde ölçülür ve farklı veri kümeleri üzerinde nasıl çalıştığına dair bir fikir elde edilir.
-
-- **Recall metriğinin öncelikli olması ve confusion matrix ile değerlendirme**: Seçilen proje gereği **recall** metriği (duyarlılık) başarım ölçümünde önceliklendirilmiştir. Recall, modelin sahtecilik gibi nadir durumları ne kadar iyi yakaladığını gösterdiği için bu projede daha önemli kabul edilmiştir. Başarım ölçümü, bir karışıklık matrisi (confusion matrix) kullanılarak yapılmıştır. Bu matris, modelin doğru ve yanlış sınıflandırmalarını ayrıntılı olarak gösterir ve recall gibi metriklerin daha net anlaşılmasını sağlar. 
-
-# *Unsupervised* - Model Seçimi ve Eğitim 
-Unsupervised learning için yapılan işlemleri şu şekilde açıklayabiliriz:
-
-- **KNN algoritması seçimi**: Aykırı değerleri tespit etmek için **K-en Yakın Komşu (KNN)** algoritması tercih edilmiştir. Bu algoritma, her veri noktasını komşularına olan mesafelerine göre değerlendirir.
-
-- **n_neighbors parametre seçimi**: Algoritma parametresi olarak **n_neighbors** değeri 2 olarak belirlenmiştir, yani her veri noktası en yakın iki komşusuna göre değerlendirilmiştir.
-
-- **Mean distances hesaplanması**: Her bir veri noktası için komşularına olan ortalama mesafeler hesaplanmıştır. Bu mesafeler, noktanın diğer verilerle ne kadar ilişkili olduğunu gösterir ve uzak değerler anomali olma olasılığını artırır.
-
-- **Threshold değerine göre anomalilerin listelenmesi**: Belirlenen bir eşik değeri (threshold) kullanılarak, ortalama mesafesi bu eşik değerin üstünde kalan veri noktaları anomali olarak sınıflandırılmış ve listelenmiştir.
-
-- **Grafiksel görselleştirme**: Anomali olarak tespit edilen ve normal olan veri noktaları iki sınıfa ayrılarak bir grafik üzerinde görselleştirilmiştir. Bu, anomalilerin veri seti içindeki dağılımını daha net bir şekilde incelemeye olanak sağlamıştır.
